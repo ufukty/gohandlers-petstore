@@ -1,5 +1,11 @@
 package pets
 
 type Pets struct {
-	// db
+	db any
+}
+
+func New(db any) *Pets {
+	return &Pets{
+		db: db,
+	}
 }
