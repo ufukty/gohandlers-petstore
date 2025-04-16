@@ -36,7 +36,9 @@ registering GetPet as GET /pets/{id}
 ## Re-generating files
 
 ```sh
+find . -name '*.gh.go' -delete
 make -B all
+git status
 ```
 
 ## See also
