@@ -8,16 +8,16 @@ import (
 )
 
 type Interface interface {
-	CreatePet(*pets.CreatePetRequest) (*http.Response, error)
+	CreatePet(*pets.CreatePetRequest) (*pets.CreatePetResponse, error)
 	DeletePet(*pets.DeletePetRequest) (*http.Response, error)
-	GetPet(*pets.GetPetRequest) (*http.Response, error)
-	ListPets(*pets.ListPetsRequest) (*http.Response, error)
+	GetPet(*pets.GetPetRequest) (*pets.GetPetResponse, error)
+	ListPets(*pets.ListPetsRequest) (*pets.ListPetsResponse, error)
 }
 
 type Mock struct {
 }
 
-func (m *Mock) CreatePet(*pets.CreatePetRequest) (*http.Response, error) {
+func (m *Mock) CreatePet(*pets.CreatePetRequest) (*pets.CreatePetResponse, error) {
 	return nil, nil
 }
 
@@ -25,10 +25,10 @@ func (m *Mock) DeletePet(*pets.DeletePetRequest) (*http.Response, error) {
 	return nil, nil
 }
 
-func (m *Mock) GetPet(*pets.GetPetRequest) (*http.Response, error) {
+func (m *Mock) GetPet(*pets.GetPetRequest) (*pets.GetPetResponse, error) {
 	return nil, nil
 }
 
-func (m *Mock) ListPets(*pets.ListPetsRequest) (*http.Response, error) {
+func (m *Mock) ListPets(*pets.ListPetsRequest) (*pets.ListPetsResponse, error) {
 	return nil, nil
 }

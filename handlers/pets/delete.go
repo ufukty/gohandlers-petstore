@@ -12,7 +12,11 @@ type DeletePetRequest struct {
 
 // DELETE /pets/{id}
 func (p *Pets) DeletePet(w http.ResponseWriter, r *http.Request) {
-	// implementation here
+	bq := &DeletePetRequest{}
 
-	_ = &DeletePetRequest{}
+	if err := bq.Parse(r); err != nil {
+		//
+	}
+
+	// implementation here
 }

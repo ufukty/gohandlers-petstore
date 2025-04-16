@@ -46,6 +46,25 @@ func (bq *CreatePetRequest) Parse(rq *http.Request) error {
 	return nil
 }
 
+func (bs CreatePetResponse) Write(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(bs); err != nil {
+		return fmt.Errorf("encoding the body: %w", err)
+	}
+	return nil
+}
+
+func (bs *CreatePetResponse) Parse(rs *http.Response) error {
+	if !strings.HasPrefix(rs.Header.Get("Content-Type"), "application/json") {
+		return fmt.Errorf("invalid content type for request: %s", rs.Header.Get("Content-Type"))
+	}
+	if err := json.NewDecoder(rs.Body).Decode(bs); err != nil {
+		return fmt.Errorf("decoding the body: %w", err)
+	}
+	return nil
+}
+
 func (bq DeletePetRequest) Build(host string) (*http.Request, error) {
 	uri := "/pets/{id}"
 	encoded, err := bq.ID.ToRoute()
@@ -88,6 +107,25 @@ func (bq *GetPetRequest) Parse(rq *http.Request) error {
 	return nil
 }
 
+func (bs GetPetResponse) Write(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(bs); err != nil {
+		return fmt.Errorf("encoding the body: %w", err)
+	}
+	return nil
+}
+
+func (bs *GetPetResponse) Parse(rs *http.Response) error {
+	if !strings.HasPrefix(rs.Header.Get("Content-Type"), "application/json") {
+		return fmt.Errorf("invalid content type for request: %s", rs.Header.Get("Content-Type"))
+	}
+	if err := json.NewDecoder(rs.Body).Decode(bs); err != nil {
+		return fmt.Errorf("decoding the body: %w", err)
+	}
+	return nil
+}
+
 func (bq ListPetsRequest) Build(host string) (*http.Request, error) {
 	uri := "/pets"
 	q := []string{}
@@ -115,6 +153,25 @@ func (bq *ListPetsRequest) Parse(rq *http.Request) error {
 		if err != nil {
 			return fmt.Errorf("ListPetsRequest.Limit.FromQuery: %w", err)
 		}
+	}
+	return nil
+}
+
+func (bs ListPetsResponse) Write(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(bs); err != nil {
+		return fmt.Errorf("encoding the body: %w", err)
+	}
+	return nil
+}
+
+func (bs *ListPetsResponse) Parse(rs *http.Response) error {
+	if !strings.HasPrefix(rs.Header.Get("Content-Type"), "application/json") {
+		return fmt.Errorf("invalid content type for request: %s", rs.Header.Get("Content-Type"))
+	}
+	if err := json.NewDecoder(rs.Body).Decode(bs); err != nil {
+		return fmt.Errorf("decoding the body: %w", err)
 	}
 	return nil
 }

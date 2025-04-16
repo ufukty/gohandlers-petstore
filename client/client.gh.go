@@ -20,7 +20,7 @@ func NewClient(p Pool) *Client {
 	return &Client{p: p}
 }
 
-func (c *Client) CreatePet(bq *pets.CreatePetRequest) (*http.Response, error) {
+func (c *Client) CreatePet(bq *pets.CreatePetRequest) (*pets.CreatePetResponse, error) {
 	h, err := c.p.Host()
 	if err != nil {
 		return nil, fmt.Errorf("Host: %w", err)
@@ -34,9 +34,14 @@ func (c *Client) CreatePet(bq *pets.CreatePetRequest) (*http.Response, error) {
 		return nil, fmt.Errorf("Do: %w", err)
 	}
 	if rs.StatusCode != http.StatusOK {
-		return rs, fmt.Errorf("non-200 status code: %d (%s)", rs.StatusCode, http.StatusText(rs.StatusCode))
+		return nil, fmt.Errorf("non-200 status code: %d (%s)", rs.StatusCode, http.StatusText(rs.StatusCode))
 	}
-	return rs, nil
+	bs := &pets.CreatePetResponse{}
+	err = bs.Parse(rs)
+	if err != nil {
+		return nil, fmt.Errorf("Parse: %w", err)
+	}
+	return bs, nil
 }
 
 func (c *Client) DeletePet(bq *pets.DeletePetRequest) (*http.Response, error) {
@@ -58,7 +63,7 @@ func (c *Client) DeletePet(bq *pets.DeletePetRequest) (*http.Response, error) {
 	return rs, nil
 }
 
-func (c *Client) GetPet(bq *pets.GetPetRequest) (*http.Response, error) {
+func (c *Client) GetPet(bq *pets.GetPetRequest) (*pets.GetPetResponse, error) {
 	h, err := c.p.Host()
 	if err != nil {
 		return nil, fmt.Errorf("Host: %w", err)
@@ -72,12 +77,17 @@ func (c *Client) GetPet(bq *pets.GetPetRequest) (*http.Response, error) {
 		return nil, fmt.Errorf("Do: %w", err)
 	}
 	if rs.StatusCode != http.StatusOK {
-		return rs, fmt.Errorf("non-200 status code: %d (%s)", rs.StatusCode, http.StatusText(rs.StatusCode))
+		return nil, fmt.Errorf("non-200 status code: %d (%s)", rs.StatusCode, http.StatusText(rs.StatusCode))
 	}
-	return rs, nil
+	bs := &pets.GetPetResponse{}
+	err = bs.Parse(rs)
+	if err != nil {
+		return nil, fmt.Errorf("Parse: %w", err)
+	}
+	return bs, nil
 }
 
-func (c *Client) ListPets(bq *pets.ListPetsRequest) (*http.Response, error) {
+func (c *Client) ListPets(bq *pets.ListPetsRequest) (*pets.ListPetsResponse, error) {
 	h, err := c.p.Host()
 	if err != nil {
 		return nil, fmt.Errorf("Host: %w", err)
@@ -91,7 +101,12 @@ func (c *Client) ListPets(bq *pets.ListPetsRequest) (*http.Response, error) {
 		return nil, fmt.Errorf("Do: %w", err)
 	}
 	if rs.StatusCode != http.StatusOK {
-		return rs, fmt.Errorf("non-200 status code: %d (%s)", rs.StatusCode, http.StatusText(rs.StatusCode))
+		return nil, fmt.Errorf("non-200 status code: %d (%s)", rs.StatusCode, http.StatusText(rs.StatusCode))
 	}
-	return rs, nil
+	bs := &pets.ListPetsResponse{}
+	err = bs.Parse(rs)
+	if err != nil {
+		return nil, fmt.Errorf("Parse: %w", err)
+	}
+	return bs, nil
 }

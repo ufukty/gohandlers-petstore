@@ -17,7 +17,16 @@ type ListPetsResponse struct {
 
 // GET /pets
 func (p *Pets) ListPets(w http.ResponseWriter, r *http.Request) {
+	bq := &ListPetsRequest{}
+
+	if err := bq.Parse(r); err != nil {
+		//
+	}
+
 	// implementation here
 
-	_ = &ListPetsRequest{}
+	bs := &ListPetsResponse{}
+	if err := bs.Write(w); err != nil {
+		//
+	}
 }

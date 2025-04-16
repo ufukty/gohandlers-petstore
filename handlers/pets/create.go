@@ -16,7 +16,16 @@ type CreatePetResponse struct {
 }
 
 func (p *Pets) CreatePet(w http.ResponseWriter, r *http.Request) {
+	bq := &CreatePetRequest{}
+
+	if err := bq.Parse(r); err != nil {
+		//
+	}
+
 	// implementation here
 
-	_ = &CreatePetRequest{}
+	bs := &CreatePetResponse{}
+	if err := bs.Write(w); err != nil {
+		//
+	}
 }

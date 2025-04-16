@@ -17,7 +17,17 @@ type GetPetResponse struct {
 
 // GET /pets/{id}
 func (p *Pets) GetPet(w http.ResponseWriter, r *http.Request) {
+
+	bq := &GetPetRequest{}
+
+	if err := bq.Parse(r); err != nil {
+		//
+	}
+
 	// implementation here
 
-	_ = &GetPetRequest{}
+	bs := &GetPetResponse{}
+	if err := bs.Write(w); err != nil {
+		//
+	}
 }
