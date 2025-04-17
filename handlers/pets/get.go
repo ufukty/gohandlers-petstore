@@ -24,6 +24,10 @@ func (p *Pets) GetPet(w http.ResponseWriter, r *http.Request) {
 		//
 	}
 
+	if err := bq.Validate(); err != nil {
+		//
+	}
+
 	// implementation here
 
 	bs := &GetPetResponse{}
