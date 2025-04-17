@@ -10,6 +10,8 @@
 
   - [`bindings.gh.go`](handlers/pets/bindings.gh.go) contains `Build`, `Parse` and `Write` methods on request and response types. `request.Parse` and `response.Write` methods are meant to be used inside handlers. `request.Build` and `response.Parse` methods are used by the client code. Notice, each method respects `query`, `route` and `form` params. Thus generated methods choose the correct way to access values. Additionally methods use JSON encoder/decoder when one request/response body contain `json` tagged fields.
 
+  - [`validate.go`](handlers/pets/validate.go) contains validation helpers for each request type. Notice the return type of validation helpers are not `error` but `map[string]error`. This enables handlers to collect errors on each field's validation step. Then handler can apply its custom logic to summarize errors for informing the client based on the endpoint's response type being JSON or HTML.
+
   - [`list.gh.go`](handlers/pets/list.gh.go) contains `ListHandlers` meant to be called by route registerer.
 
   - [`gh.yml`](handlers/pets/gh.yml) contains information of handler names, paths and methods that are meant help outside clients.
