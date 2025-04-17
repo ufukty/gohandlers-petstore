@@ -4,11 +4,11 @@ import (
 	"net/http"
 
 	"github.com/ufukty/gohandlers-petstore/handlers/pets/dto"
-	"github.com/ufukty/gohandlers/pkg/types/basics"
+	"github.com/ufukty/gohandlers-petstore/handlers/pets/types"
 )
 
 type ListPetsRequest struct {
-	Limit basics.Int `query:"limit"` // optional
+	Limit types.ListLimit `query:"limit"` // optional
 }
 
 type ListPetsResponse struct {

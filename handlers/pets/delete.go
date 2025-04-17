@@ -3,11 +3,11 @@ package pets
 import (
 	"net/http"
 
-	"github.com/ufukty/gohandlers/pkg/types/basics"
+	"github.com/ufukty/gohandlers-petstore/handlers/pets/types"
 )
 
 type DeletePetRequest struct {
-	ID basics.String `route:"id"`
+	ID types.PetId `route:"id"`
 }
 
 // DELETE /pets/{id}

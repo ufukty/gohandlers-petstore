@@ -3,12 +3,12 @@ package pets
 import (
 	"net/http"
 
-	"github.com/ufukty/gohandlers/pkg/types/basics"
+	"github.com/ufukty/gohandlers-petstore/handlers/pets/types"
 )
 
 type CreatePetRequest struct {
-	Name basics.String `json:"name"`
-	Tag  basics.String `json:"tag"`
+	Name types.PetName `json:"name"`
+	Tag  types.PetTag  `json:"tag"`
 }
 
 type CreatePetResponse struct {

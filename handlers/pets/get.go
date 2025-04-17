@@ -4,11 +4,11 @@ import (
 	"net/http"
 
 	"github.com/ufukty/gohandlers-petstore/handlers/pets/dto"
-	"github.com/ufukty/gohandlers/pkg/types/basics"
+	"github.com/ufukty/gohandlers-petstore/handlers/pets/types"
 )
 
 type GetPetRequest struct {
-	ID basics.String `route:"id"`
+	ID types.PetId `route:"id"`
 }
 
 type GetPetResponse struct {
