@@ -20,7 +20,7 @@ func (p *Pets) CreatePet(w http.ResponseWriter, r *http.Request) {
 	bq := &CreatePetRequest{}
 
 	if err := bq.Parse(r); err != nil {
-		slog.Debug("error on parsing request", "content", err.Error())
+		slog.Debug("user error on parsing request", "content", err.Error())
 		http.Error(w, "error on parsing request", 400)
 		return
 	}
@@ -30,7 +30,7 @@ func (p *Pets) CreatePet(w http.ResponseWriter, r *http.Request) {
 			slog.Error("error on serialization validation error", "content", err)
 			http.Error(w, "error on serialization validation error", 500)
 		} else {
-			slog.Debug("error on validation", "length", len(errs))
+			slog.Debug("user error on validation", "length", len(errs))
 		}
 		return
 	}
@@ -41,7 +41,7 @@ func (p *Pets) CreatePet(w http.ResponseWriter, r *http.Request) {
 		ID: "",
 	}
 	if err := bs.Write(w); err != nil {
-		slog.Debug("error on serializing response", "content", err.Error())
+		slog.Debug("user error on serializing response", "content", err.Error())
 		http.Error(w, "serializing response", 400)
 		return
 	}
