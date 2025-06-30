@@ -1,4 +1,4 @@
 all:
 	gohandlers helpers
-	gohandlers yaml
+	gohandlers yaml --dir .
 	
