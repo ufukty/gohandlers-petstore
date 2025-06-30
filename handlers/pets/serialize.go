@@ -6,8 +6,8 @@ import (
 	"net/http"
 )
 
-func serialize(w http.ResponseWriter, errs map[string]any) error {
-	err := json.NewEncoder(w).Encode(errs)
+func serialize(w http.ResponseWriter, issues map[string]any) error {
+	err := json.NewEncoder(w).Encode(issues)
 	if err != nil {
 		return fmt.Errorf("encoding json: %w", err)
 	}

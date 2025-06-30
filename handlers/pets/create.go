@@ -25,12 +25,12 @@ func (p *Pets) CreatePet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if errs := bq.Validate(); errs != nil {
-		if err := serialize(w, errs); err != nil {
+	if issues := bq.Validate(); issues != nil {
+		if err := serialize(w, issues); err != nil {
 			slog.Error("error on serialization validation error", "content", err)
 			http.Error(w, "error on serialization validation error", 500)
 		} else {
-			slog.Debug("user error on validation", "length", len(errs))
+			slog.Debug("user error on validation", "length", len(issues))
 		}
 		return
 	}
