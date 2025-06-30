@@ -8,17 +8,17 @@ import (
 	"github.com/ufukty/gohandlers-petstore/handlers/pets/types"
 )
 
-type ListPetsRequest struct {
+type ListRequest struct {
 	Limit types.ListLimit `query:"limit"` // optional
 }
 
-type ListPetsResponse struct {
+type ListResponse struct {
 	Pets []dto.Pet `json:"pets"`
 }
 
 // GET /pets
-func (p *Pets) ListPets(w http.ResponseWriter, r *http.Request) {
-	bq := &ListPetsRequest{}
+func (p *Pets) List(w http.ResponseWriter, r *http.Request) {
+	bq := &ListRequest{}
 
 	if err := bq.Parse(r); err != nil {
 		slog.Debug("user error on parsing request", "content", err.Error())
@@ -38,7 +38,7 @@ func (p *Pets) ListPets(w http.ResponseWriter, r *http.Request) {
 
 	// ...
 
-	bs := &ListPetsResponse{
+	bs := &ListResponse{
 		Pets: []dto.Pet{},
 	}
 	if err := bs.Write(w); err != nil {

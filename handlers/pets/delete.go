@@ -7,13 +7,13 @@ import (
 	"github.com/ufukty/gohandlers-petstore/handlers/pets/types"
 )
 
-type DeletePetRequest struct {
+type DeleteRequest struct {
 	ID types.PetId `route:"id"`
 }
 
 // DELETE /pets/{id}
-func (p *Pets) DeletePet(w http.ResponseWriter, r *http.Request) {
-	bq := &DeletePetRequest{}
+func (p *Pets) Delete(w http.ResponseWriter, r *http.Request) {
+	bq := &DeleteRequest{}
 
 	if err := bq.Parse(r); err != nil {
 		slog.Debug("user error on parsing request", "content", err.Error())

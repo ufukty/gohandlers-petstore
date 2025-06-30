@@ -1,12 +1,12 @@
-CreatePet:
+Create:
   method: POST
-  path: /create-pet
-DeletePet:
+  path: /create
+Delete:
   method: DELETE
   path: /pets/{id}
-GetPet:
+Get:
   method: GET
   path: /pets/{id}
-ListPets:
+List:
   method: GET
   path: /pets

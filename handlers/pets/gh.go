@@ -14,10 +14,10 @@ import (
 
 func (pe *Pets) ListHandlers() map[string]gohandlers.HandlerInfo {
 	return map[string]gohandlers.HandlerInfo{
-		"CreatePet": {Method: "POST", Path: "/create-pet", Ref: pe.CreatePet},
-		"DeletePet": {Method: "DELETE", Path: "/pets/{id}", Ref: pe.DeletePet},
-		"GetPet":    {Method: "GET", Path: "/pets/{id}", Ref: pe.GetPet},
-		"ListPets":  {Method: "GET", Path: "/pets", Ref: pe.ListPets},
+		"Create": {Method: "POST", Path: "/create", Ref: pe.Create},
+		"Delete": {Method: "DELETE", Path: "/pets/{id}", Ref: pe.Delete},
+		"Get":    {Method: "GET", Path: "/pets/{id}", Ref: pe.Get},
+		"List":   {Method: "GET", Path: "/pets", Ref: pe.List},
 	}
 }
 
@@ -32,8 +32,8 @@ func join(segments ...string) string {
 	return url
 }
 
-func (bq CreatePetRequest) Build(host string) (*http.Request, error) {
-	uri := "/create-pet"
+func (bq CreateRequest) Build(host string) (*http.Request, error) {
+	uri := "/create"
 	body := bytes.NewBuffer([]byte{})
 	if err := json.NewEncoder(body).Encode(bq); err != nil {
 		return nil, fmt.Errorf("json.Encoder.Encode: %w", err)
@@ -47,7 +47,7 @@ func (bq CreatePetRequest) Build(host string) (*http.Request, error) {
 	return r, nil
 }
 
-func (bq *CreatePetRequest) Parse(rq *http.Request) error {
+func (bq *CreateRequest) Parse(rq *http.Request) error {
 	if !strings.HasPrefix(rq.Header.Get("Content-Type"), "application/json") {
 		return fmt.Errorf("invalid content type for request: %s", rq.Header.Get("Content-Type"))
 	}
@@ -57,7 +57,7 @@ func (bq *CreatePetRequest) Parse(rq *http.Request) error {
 	return nil
 }
 
-func (bq CreatePetRequest) Validate() (issues map[string]any) {
+func (bq CreateRequest) Validate() (issues map[string]any) {
 	issues = map[string]any{}
 	if issue := bq.Name.Validate(); issue != nil {
 		issues["name"] = issue
@@ -68,7 +68,7 @@ func (bq CreatePetRequest) Validate() (issues map[string]any) {
 	return
 }
 
-func (bs CreatePetResponse) Write(w http.ResponseWriter) error {
+func (bs CreateResponse) Write(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(bs); err != nil {
@@ -77,7 +77,7 @@ func (bs CreatePetResponse) Write(w http.ResponseWriter) error {
 	return nil
 }
 
-func (bs *CreatePetResponse) Parse(rs *http.Response) error {
+func (bs *CreateResponse) Parse(rs *http.Response) error {
 	if !strings.HasPrefix(rs.Header.Get("Content-Type"), "application/json") {
 		return fmt.Errorf("invalid content type for request: %s", rs.Header.Get("Content-Type"))
 	}
@@ -87,11 +87,11 @@ func (bs *CreatePetResponse) Parse(rs *http.Response) error {
 	return nil
 }
 
-func (bq DeletePetRequest) Build(host string) (*http.Request, error) {
+func (bq DeleteRequest) Build(host string) (*http.Request, error) {
 	uri := "/pets/{id}"
 	encoded, err := bq.ID.ToRoute()
 	if err != nil {
-		return nil, fmt.Errorf("DeletePetRequest.ID.ToRoute: %w", err)
+		return nil, fmt.Errorf("DeleteRequest.ID.ToRoute: %w", err)
 	}
 	uri = strings.Replace(uri, "{id}", encoded, 1)
 	r, err := http.NewRequest("DELETE", join(host, uri), nil)
@@ -101,14 +101,14 @@ func (bq DeletePetRequest) Build(host string) (*http.Request, error) {
 	return r, nil
 }
 
-func (bq *DeletePetRequest) Parse(rq *http.Request) error {
+func (bq *DeleteRequest) Parse(rq *http.Request) error {
 	if err := bq.ID.FromRoute(rq.PathValue("id")); err != nil {
-		return fmt.Errorf("DeletePetRequest.ID.FromRoute: %w", err)
+		return fmt.Errorf("DeleteRequest.ID.FromRoute: %w", err)
 	}
 	return nil
 }
 
-func (bq DeletePetRequest) Validate() (issues map[string]any) {
+func (bq DeleteRequest) Validate() (issues map[string]any) {
 	issues = map[string]any{}
 	if issue := bq.ID.Validate(); issue != nil {
 		issues["id"] = issue
@@ -116,11 +116,11 @@ func (bq DeletePetRequest) Validate() (issues map[string]any) {
 	return
 }
 
-func (bq GetPetRequest) Build(host string) (*http.Request, error) {
+func (bq GetRequest) Build(host string) (*http.Request, error) {
 	uri := "/pets/{id}"
 	encoded, err := bq.ID.ToRoute()
 	if err != nil {
-		return nil, fmt.Errorf("GetPetRequest.ID.ToRoute: %w", err)
+		return nil, fmt.Errorf("GetRequest.ID.ToRoute: %w", err)
 	}
 	uri = strings.Replace(uri, "{id}", encoded, 1)
 	r, err := http.NewRequest("GET", join(host, uri), nil)
@@ -130,14 +130,14 @@ func (bq GetPetRequest) Build(host string) (*http.Request, error) {
 	return r, nil
 }
 
-func (bq *GetPetRequest) Parse(rq *http.Request) error {
+func (bq *GetRequest) Parse(rq *http.Request) error {
 	if err := bq.ID.FromRoute(rq.PathValue("id")); err != nil {
-		return fmt.Errorf("GetPetRequest.ID.FromRoute: %w", err)
+		return fmt.Errorf("GetRequest.ID.FromRoute: %w", err)
 	}
 	return nil
 }
 
-func (bq GetPetRequest) Validate() (issues map[string]any) {
+func (bq GetRequest) Validate() (issues map[string]any) {
 	issues = map[string]any{}
 	if issue := bq.ID.Validate(); issue != nil {
 		issues["id"] = issue
@@ -145,7 +145,7 @@ func (bq GetPetRequest) Validate() (issues map[string]any) {
 	return
 }
 
-func (bs GetPetResponse) Write(w http.ResponseWriter) error {
+func (bs GetResponse) Write(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(bs); err != nil {
@@ -154,7 +154,7 @@ func (bs GetPetResponse) Write(w http.ResponseWriter) error {
 	return nil
 }
 
-func (bs *GetPetResponse) Parse(rs *http.Response) error {
+func (bs *GetResponse) Parse(rs *http.Response) error {
 	if !strings.HasPrefix(rs.Header.Get("Content-Type"), "application/json") {
 		return fmt.Errorf("invalid content type for request: %s", rs.Header.Get("Content-Type"))
 	}
@@ -164,12 +164,12 @@ func (bs *GetPetResponse) Parse(rs *http.Response) error {
 	return nil
 }
 
-func (bq ListPetsRequest) Build(host string) (*http.Request, error) {
+func (bq ListRequest) Build(host string) (*http.Request, error) {
 	uri := "/pets"
 	q := []string{}
 	encoded, ok, err := bq.Limit.ToQuery()
 	if err != nil {
-		return nil, fmt.Errorf("ListPetsRequest.Limit.ToQuery: %w", err)
+		return nil, fmt.Errorf("ListRequest.Limit.ToQuery: %w", err)
 	}
 	if ok {
 		q = append(q, fmt.Sprintf("limit=%s", encoded))
@@ -184,18 +184,18 @@ func (bq ListPetsRequest) Build(host string) (*http.Request, error) {
 	return r, nil
 }
 
-func (bq *ListPetsRequest) Parse(rq *http.Request) error {
+func (bq *ListRequest) Parse(rq *http.Request) error {
 	q := rq.URL.Query()
 	if q.Has("limit") {
 		err := bq.Limit.FromQuery(q.Get("limit"))
 		if err != nil {
-			return fmt.Errorf("ListPetsRequest.Limit.FromQuery: %w", err)
+			return fmt.Errorf("ListRequest.Limit.FromQuery: %w", err)
 		}
 	}
 	return nil
 }
 
-func (bq ListPetsRequest) Validate() (issues map[string]any) {
+func (bq ListRequest) Validate() (issues map[string]any) {
 	issues = map[string]any{}
 	if issue := bq.Limit.Validate(); issue != nil {
 		issues["limit"] = issue
@@ -203,7 +203,7 @@ func (bq ListPetsRequest) Validate() (issues map[string]any) {
 	return
 }
 
-func (bs ListPetsResponse) Write(w http.ResponseWriter) error {
+func (bs ListResponse) Write(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(bs); err != nil {
@@ -212,7 +212,7 @@ func (bs ListPetsResponse) Write(w http.ResponseWriter) error {
 	return nil
 }
 
-func (bs *ListPetsResponse) Parse(rs *http.Response) error {
+func (bs *ListResponse) Parse(rs *http.Response) error {
 	if !strings.HasPrefix(rs.Header.Get("Content-Type"), "application/json") {
 		return fmt.Errorf("invalid content type for request: %s", rs.Header.Get("Content-Type"))
 	}

@@ -7,17 +7,17 @@ import (
 	"github.com/ufukty/gohandlers-petstore/handlers/pets/types"
 )
 
-type CreatePetRequest struct {
+type CreateRequest struct {
 	Name types.PetName `json:"name"`
 	Tag  types.PetTag  `json:"tag"`
 }
 
-type CreatePetResponse struct {
+type CreateResponse struct {
 	ID string `json:"id"`
 }
 
-func (p *Pets) CreatePet(w http.ResponseWriter, r *http.Request) {
-	bq := &CreatePetRequest{}
+func (p *Pets) Create(w http.ResponseWriter, r *http.Request) {
+	bq := &CreateRequest{}
 
 	if err := bq.Parse(r); err != nil {
 		slog.Debug("user error on parsing request", "content", err.Error())
@@ -37,7 +37,7 @@ func (p *Pets) CreatePet(w http.ResponseWriter, r *http.Request) {
 
 	// ...
 
-	bs := &CreatePetResponse{
+	bs := &CreateResponse{
 		ID: "",
 	}
 	if err := bs.Write(w); err != nil {
