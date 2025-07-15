@@ -16,7 +16,7 @@ There are user provided and Gohandlers generated files in this repository. By de
 
 ### Gohandlers generated files
 
-- [`handlers/pets/gh.go`](handlers/pets/gh.go) contains the builder, parser and validator for request bindings, builder and writer for response bindings and path, method and reference listers for global handlers and method handlers.
+- [`handlers/pets/gh.go`](handlers/pets/gh.go) contains the builder, parser and validator for request bindings; builder and writer for response bindings and path, method and reference listers for global handlers and method handlers.
 
 - [`client/client.gh.go`](client/client.gh.go) contains the real `Client` implementation as well as the `Interface` declaration for using `Mock` implementation during tests.
 
